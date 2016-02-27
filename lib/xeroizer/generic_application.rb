@@ -7,7 +7,7 @@ module Xeroizer
     extend Record::ApplicationHelper
 
     attr_reader :client, :xero_url, :logger, :rate_limit_sleep, :rate_limit_max_attempts,
-                :default_headers, :unitdp, :before_request, :after_request
+                :default_headers, :unitdp, :before_request, :after_request, :cache
 
     extend Forwardable
     def_delegators :client, :access_token
@@ -63,6 +63,7 @@ module Xeroizer
         @after_request = options.delete(:after_request)
         @client = OAuth.new(consumer_key, consumer_secret, options.merge({default_headers: default_headers}))
         @logger = options[:logger] || false
+        @cache  = options[:cache] || { client: NullCache.new }
         @unitdp = options[:unitdp] || 2
       end
 
