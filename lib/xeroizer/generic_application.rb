@@ -1,4 +1,5 @@
 require 'xeroizer/record/application_helper'
+require 'xeroizer/null_cache'
 
 module Xeroizer
   class GenericApplication
@@ -63,7 +64,7 @@ module Xeroizer
         @after_request = options.delete(:after_request)
         @client = OAuth.new(consumer_key, consumer_secret, options.merge({default_headers: default_headers}))
         @logger = options[:logger] || false
-        @cache  = options[:cache] || { client: NullCache.new }
+        @cache  = options[:cache] || { client: Xeroizer::NullCache.new }
         @unitdp = options[:unitdp] || 2
       end
 
